@@ -10,22 +10,11 @@ import com.nxj.oj.config.WxOpenConfig;
 import com.nxj.oj.constant.UserConstant;
 import com.nxj.oj.exception.BusinessException;
 import com.nxj.oj.exception.ThrowUtils;
-import com.nxj.oj.model.dto.user.UserAddRequest;
-import com.nxj.oj.model.dto.user.UserLoginRequest;
-import com.nxj.oj.model.dto.user.UserQueryRequest;
-import com.nxj.oj.model.dto.user.UserRegisterRequest;
-import com.nxj.oj.model.dto.user.UserUpdateMyRequest;
-import com.nxj.oj.model.dto.user.UserUpdateRequest;
+import com.nxj.oj.model.dto.user.*;
 import com.nxj.oj.model.entity.User;
 import com.nxj.oj.model.vo.LoginUserVO;
 import com.nxj.oj.model.vo.UserVO;
 import com.nxj.oj.service.UserService;
-
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -33,12 +22,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import static com.nxj.oj.service.impl.UserServiceImpl.SALT;
 

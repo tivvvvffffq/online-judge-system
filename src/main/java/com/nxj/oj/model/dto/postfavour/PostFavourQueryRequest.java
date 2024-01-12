@@ -2,9 +2,10 @@ package com.nxj.oj.model.dto.postfavour;
 
 import com.nxj.oj.common.PageRequest;
 import com.nxj.oj.model.dto.post.PostQueryRequest;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 帖子收藏查询请求

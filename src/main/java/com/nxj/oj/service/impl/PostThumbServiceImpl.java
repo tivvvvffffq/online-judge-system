@@ -10,10 +10,11 @@ import com.nxj.oj.model.entity.PostThumb;
 import com.nxj.oj.model.entity.User;
 import com.nxj.oj.service.PostService;
 import com.nxj.oj.service.PostThumbService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务实现

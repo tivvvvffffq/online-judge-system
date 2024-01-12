@@ -2,6 +2,7 @@ package com.nxj.oj.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nxj.oj.model.entity.Post;
+
 import java.util.Date;
 import java.util.List;
 

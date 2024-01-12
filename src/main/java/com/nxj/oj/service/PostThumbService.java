@@ -1,7 +1,7 @@
 package com.nxj.oj.service;
 
-import com.nxj.oj.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nxj.oj.model.entity.PostThumb;
 import com.nxj.oj.model.entity.User;
 
 /**

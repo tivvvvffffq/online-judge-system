@@ -1,7 +1,7 @@
 package com.nxj.oj.mapper;
 
-import com.nxj.oj.model.entity.PostThumb;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.nxj.oj.model.entity.PostThumb;
 
 /**
  * 帖子点赞数据库操作
