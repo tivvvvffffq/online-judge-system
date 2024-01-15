@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
-    implements QuestionService{
+    implements QuestionService {
 
     @Resource
     private UserService userService;
@@ -52,14 +52,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         if (question == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-
         String title = question.getTitle();
         String content = question.getContent();
         String tags = question.getTags();
         String answer = question.getAnswer();
         String judgeCase = question.getJudgeCase();
         String judgeConfig = question.getJudgeConfig();
-
         // 创建时，参数不能为空
         if (add) {
             ThrowUtils.throwIf(StringUtils.isAnyBlank(title, content, tags), ErrorCode.PARAMS_ERROR);
@@ -83,7 +81,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     }
 
     /**
-     * 获取查询包装类
+     * 获取查询包装类（用户根据哪些字段查询，根据前端传来的请求对象，得到 mybatis 框架支持的查询 QueryWrapper 类）
      *
      * @param questionQueryRequest
      * @return
@@ -94,7 +92,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         if (questionQueryRequest == null) {
             return queryWrapper;
         }
-
         Long id = questionQueryRequest.getId();
         String title = questionQueryRequest.getTitle();
         String content = questionQueryRequest.getContent();
@@ -115,6 +112,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.eq("isDelete", false);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
@@ -123,7 +121,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     @Override
     public QuestionVO getQuestionVO(Question question, HttpServletRequest request) {
         QuestionVO questionVO = QuestionVO.objToVo(question);
-        long questionId = question.getId();
         // 1. 关联查询用户信息
         Long userId = question.getUserId();
         User user = null;
@@ -139,14 +136,13 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     public Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request) {
         List<Question> questionList = questionPage.getRecords();
         Page<QuestionVO> questionVOPage = new Page<>(questionPage.getCurrent(), questionPage.getSize(), questionPage.getTotal());
-        if (CollUtil.isEmpty(questionList)) {
+        if (CollectionUtils.isEmpty(questionList)) {
             return questionVOPage;
         }
         // 1. 关联查询用户信息
         Set<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toSet());
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
-
         // 填充信息
         List<QuestionVO> questionVOList = questionList.stream().map(question -> {
             QuestionVO questionVO = QuestionVO.objToVo(question);
@@ -162,9 +158,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         return questionVOPage;
     }
 
-
 }
-
 
 
 
