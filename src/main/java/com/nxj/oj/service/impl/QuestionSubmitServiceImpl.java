@@ -1,12 +1,12 @@
 package com.nxj.oj.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nxj.oj.common.ErrorCode;
 import com.nxj.oj.constant.CommonConstant;
 import com.nxj.oj.exception.BusinessException;
+import com.nxj.oj.judge.JudgeService;
 import com.nxj.oj.mapper.QuestionSubmitMapper;
 import com.nxj.oj.model.dto.question.QuestionQueryRequest;
 import com.nxj.oj.model.dto.questionsubmit.QuestionSubmitAddRequest;
@@ -52,6 +52,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private UserService userService;
 
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
     /**
      * 提交题目
      *
@@ -90,7 +93,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         }
         Long questionSubmitId = questionSubmit.getId();
         // 执行判题服务
-
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
         return questionSubmitId;
     }
 

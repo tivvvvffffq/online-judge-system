@@ -8,15 +8,11 @@ import com.nxj.oj.judge.codesandbox.CodeSandboxFactory;
 import com.nxj.oj.judge.codesandbox.CodeSandboxProxy;
 import com.nxj.oj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.nxj.oj.judge.codesandbox.model.ExecuteCodeResponse;
-import com.nxj.oj.judge.strategy.DefaultJudgeStrategy;
 import com.nxj.oj.judge.strategy.JudgeContext;
-import com.nxj.oj.judge.strategy.JudgeStrategy;
 import com.nxj.oj.model.dto.question.JudgeCase;
-import com.nxj.oj.model.dto.question.JudgeConfig;
 import com.nxj.oj.model.dto.questionsubmit.JudgeInfo;
 import com.nxj.oj.model.entity.Question;
 import com.nxj.oj.model.entity.QuestionSubmit;
-import com.nxj.oj.model.enums.JudgeInfoMessageEnum;
 import com.nxj.oj.model.enums.QuestionSubmitStatusEnum;
 import com.nxj.oj.service.QuestionService;
 import com.nxj.oj.service.QuestionSubmitService;
@@ -39,6 +35,8 @@ public class JudgeServiceImpl implements JudgeService {
     @Value("${codesandbox.type:example}")
     private String type;
 
+    @Resource
+    JudgeManager judgeManager;
 
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
@@ -93,8 +91,7 @@ public class JudgeServiceImpl implements JudgeService {
         judgeContext.setQuestion(question);
         judgeContext.setQuestionSubmit(questionSubmit);
 
-        JudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
-        JudgeInfo judgeInfo = judgeStrategy.doJudge(judgeContext);
+        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
 
         // 6）修改数据库中的判题结果
         questionSubmitUpdate = new QuestionSubmit();
